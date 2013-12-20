@@ -57,6 +57,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="config.xml" />
     <Content Include="fonts\Lato-Black.ttf" />
     <Content Include="fonts\Lato-BlackItalic.ttf" />
     <Content Include="fonts\lato-Bold.ttf" />
@@ -75,12 +76,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="companies.js" />
+    <Content Include="img\icon36x36.png" />
+    <Content Include="js\companies.js" />
     <Content Include="img\TTEITI_Logo.jpg" />
     <Content Include="index - TTEITI OD workshop.html" />
     <Content Include="index.html" />
-    <Content Include="jquery.mobile.flatui.css" />
-    <Content Include="reports.js" />
+    <Content Include="css\jquery.mobile.flatui.css" />
+    <Content Include="js\reports.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
