@@ -76,12 +76,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="img\icon.png" />
     <Content Include="img\icon36x36.png" />
+    <Content Include="js\angular.min.js" />
     <Content Include="js\companies.js" />
     <Content Include="img\TTEITI_Logo.jpg" />
     <Content Include="index - TTEITI OD workshop.html" />
     <Content Include="index.html" />
     <Content Include="css\jquery.mobile.flatui.css" />
+    <Content Include="js\jquery-1.10.2.min.js" />
+    <Content Include="js\jquery.mobile-1.4.0-rc.1.min.js" />
     <Content Include="js\reports.js" />
     <Content Include="Web.config" />
   </ItemGroup>
