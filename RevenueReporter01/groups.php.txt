@@ -1,0 +1,68 @@
+{
+  "openTTEITI":{
+    "groups":{
+      "group":[
+        {
+          "id":1,
+          "group":"BG Group",
+          "country":"United Kingdom"
+        },
+        {
+          "id":2,
+          "group":"BHP Billiton Group",
+          "country":"Australia"
+        },
+        {
+          "id":3,
+          "group":"BP Group",
+          "country":"United Kingdom"
+        },
+        {
+          "id":4,
+          "group":"EOG Group",
+          "country":"United States"
+        },
+        {
+          "id":5,
+          "group":"Repsol Group",
+          "country":"Spain"
+        },
+        {
+          "id":6,
+          "group":"Petrotrin Group",
+          "country":"Trinidad and Tobago"
+        },
+        {
+          "id":7,
+          "group":"N.G.C.",
+          "country":"Trinidad and Tobago"
+        },
+        {
+          "id":8,
+          "group":"Primera Group",
+          "country":"Canada"
+        },
+        {
+          "id":9,
+          "group":"Centrica Group",
+          "country":"United Kingdom"
+        },
+        {
+          "id":10,
+          "group":"ENI Group",
+          "country":"Italy"
+        },
+        {
+          "id":11,
+          "group":"Total Group",
+          "country":"United States"
+        },
+        {
+          "id":12,
+          "group":"Niko Group",
+          "country":"Canada"
+        }
+      ]
+    }
+  }
+}
