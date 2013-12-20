@@ -1,0 +1,8 @@
+TTEITI Logo
+Better preamble that a layman would understand.
+"Data reported by 57 companies to the TTEITI Initiative for the finacial year 2010-2011"
+- can come from the website
+
+TITLE: Revenue Report
+
+test on ios, bb, android

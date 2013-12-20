@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="tteitiRevenueGeneratorsApp">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TTEITI Revenue Reporter</title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0-rc.1/jquery.mobile-1.4.0-rc.1.min.css">
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.0-rc.1/jquery.mobile-1.4.0-rc.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.4/angular.min.js"></script>
+    <script type="text/javascript">
+        Number.prototype.formatMoney = function (c, d, t) {
+            var n = this,
+                c = isNaN(c = Math.abs(c)) ? 2 : c,
+                d = d == undefined ? "." : d,
+                t = t == undefined ? "," : t,
+                s = n < 0 ? "-" : "",
+                i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "",
+                j = (j = i.length) > 3 ? j % 3 : 0;
+            return " $" + (s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : ""));
+        };
+    </script>
+    <script type="text/javascript">
+        var app = angular.module('tteitiRevenueGeneratorsApp', []);
+
+        app.controller('ReportCtrl', function ($scope) {
+            $scope.companies = [];
+            $scope.companiesByRevenue = [];
+            $scope.showAll = false;
+
+            $scope.displayCompany = function(id)
+            {
+                for (var i = 0; i < $scope.companies.length; i++)
+                {
+                    if ($scope.companies[i].id == id)
+                    {
+                        $scope.company = $scope.companies[i];
+                        $.mobile.changePage("#company");
+                    }
+                }
+            }
+        });
+    </script>
+    <style>
+        body {
+            display: none;
+        }
+
+        h1 {
+            white-space: normal !important;
+        }
+
+        .ui-panel-inner {
+            position: absolute;
+            top: 1px;
+            left: 0;
+            right: 0;
+            bottom: 0px;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+</head>
+<body ng-controller="ReportCtrl">
+
+    <!-- Start of first page: #one -->
+    <div data-role="page" id="one">
+
+        <div data-role="header">
+            <h1>Trinidad and Tobago Extractive Industries Transparency Initiative (TTEITI) Report 2013</h1>
+        </div><!-- /header -->
+
+        <div role="main" class="ui-content">
+            <h2>Revenue</h2>
+
+            <p>View the revenues reported by companies, what the government received and any adjustments and differences</p>
+            <p><a href="#companies" class="ui-btn ui-shadow ui-corner-all">Ordered by Companies</a></p>
+            <p><a href="#revenue" class="ui-btn ui-shadow ui-corner-all">Ordered by Revenue</a></p>
+            <p><a href="#discrepancy" class="ui-btn ui-shadow ui-corner-all">Ordered by Revenue (discrepancies only)</a></p>
+        </div><!-- /content -->
+
+    </div><!-- /page one -->
+    <!-- Start of second page: #two -->
+    <div data-role="page" id="companies" data-theme="a">
+
+        <div data-role="header">
+            <h1>Companies</h1>
+        </div>
+
+        <div role="main" class="ui-content">
+            <h2>{{ companies.length }} companies</h2>
+            <div id="companylist">
+                <ul data-role="listview"
+                    data-filter="true"
+                    data-filter-placeholder="Search companies..."
+                    data-inset="true"
+                    data-autodividers="true">
+                    <li ng-repeat="company in companies">
+                        <a href="#" class="ui-btn ui-shadow" ng-click="displayCompany(company.id)">{{company.company}}</a>
+                        <dl>
+                            <dt>Received:</dt><dd>{{company.final_company}}</dd>
+                            <dt ng-show="company.final_difference * 1.0 != 0">Discrepancy:</dt>
+                            <dd ng-show="company.final_difference * 1.0 != 0">{{company.final_difference}}</dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+
+            <p><a href="#one" data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Back</a></p>
+
+        </div><!-- /content -->
+
+        <div data-role="footer">
+            <h4>TTEITI 2013: Company List</h4>
+        </div><!-- /footer -->
+    </div><!-- /page two -->
+
+    <div data-role="page" id="revenue" data-theme="a">
+
+        <div data-role="panel" id="options" data-position="right">
+            <a href="#registry" class="ui-btn ui-icon-back ui-btn-icon-left  ui-corner-all" data-rel="close">back</a>
+            <p>Filter by the kind of extraction activity you'd like to see</p>
+            <form>
+                <label for="showAll">Filter out resolved</label>
+                <input type="checkbox" checked="checked" data-role="flipswitch" name="all" id="showAll">
+            </form>
+            <a href="#registry" class="ui-btn ui-icon-back ui-btn-icon-left ui-shadow ui-corner-all" data-rel="close">back</a>
+        </div>
+
+        <div data-role="header">
+            <h1>Companies, by Revenue</h1>
+        </div>
+
+        <div role="main" class="ui-content">
+            <h2>{{ companies.length }} companies</h2>
+            <a href="#options" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-icon-left ui-icon-bars">Options</a>
+            <div id="companylist">
+                <ul data-role="listview"
+                    data-filter="true"
+                    data-filter-placeholder="Search companies..."
+                    >
+                    <li ng-repeat="company in companiesByRevenue">
+                        <a href="#" class="ui-btn ui-shadow"
+                           ng-click="displayCompany(company.id)">
+                            {{company.company}} {{(company.final_government * 1.0).formatMoney()}} ( difference of: {{(company.final_difference * 1.0).formatMoney()}})
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <p><a href="#one" data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Back</a></p>
+
+        </div><!-- /content -->
+
+        <div data-role="footer">
+            <h4>TTEITI 2013: Company List</h4>
+        </div><!-- /footer -->
+    </div><!-- /page two -->
+
+    <div data-role="page" id="discrepancy" data-theme="a">
+
+        <div data-role="panel" id="options" data-position="right">
+            <a href="#registry" class="ui-btn ui-icon-back ui-btn-icon-left  ui-corner-all" data-rel="close">back</a>
+            <p>Filter by the kind of extraction activity you'd like to see</p>
+            <form>
+                <label for="showAll">Filter out resolved</label>
+                <input type="checkbox" checked="checked" data-role="flipswitch" name="all" id="showAll">
+            </form>
+            <a href="#registry" class="ui-btn ui-icon-back ui-btn-icon-left ui-shadow ui-corner-all" data-rel="close">back</a>
+        </div>
+
+        <div data-role="header">
+            <h1>Companies with discrepancy by revenue</h1>
+        </div>
+
+        <div role="main" class="ui-content">
+            <h2>{{ companies.length }} companies</h2>
+            <a href="#options" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-btn-icon-left ui-icon-bars">Options</a>
+            <div id="companylist">
+                <ul data-role="listview"
+                    data-filter="true"
+                    data-filter-placeholder="Search companies...">
+                    <li ng-show="company.final_difference * 1.0 != 0" ng-repeat="company in companiesByRevenue">
+                        <a href="#" class="ui-btn ui-shadow"
+                           ng-click="displayCompany(company.id)">
+                            {{company.company}} {{(company.final_government * 1.0).formatMoney()}} ( difference of: {{(company.final_difference * 1.0).formatMoney()}})
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <p><a href="#one" data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b">Back</a></p>
+
+        </div><!-- /content -->
+
+        <div data-role="footer">
+            <h4>TTEITI 2013: Company List</h4>
+        </div><!-- /footer -->
+    </div>
+    <!-- Start of third page: #popup -->
+    <div data-role="page" id="company">
+
+        <div data-role="header" data-theme="b">
+            <h1>{{company.company}}</h1>
+        </div><!-- /header -->
+
+        <div role="main" class="ui-content">
+            <dl>
+                <dt>Government submitted </dt><dd>{{ (company.submitted_government * 1.0).formatMoney(2)}}</dd>
+                <dt>Company submitted </dt> <dd>{{ (company.submitted_company* 1.0).formatMoney(2)}}</dd>
+                <dt>Difference: </dt> <dd>{{ (company.submitted_difference* 1.0).formatMoney(2)}}</dd>
+                <dt>Government adjusted: </dt> <dd>{{ (company.adjusted_government* 1.0).formatMoney(2)}}</dd>
+                <dt>Company submitted: </dt> <dd>{{ (company.adjusted_company* 1.0).formatMoney(2)}}</dd>
+                <dt>Government final: </dt> <dd>{{ (company.final_government* 1.0).formatMoney(2)}}</dd>
+                <dt>Company final: </dt> <dd>{{ (company.final_company* 1.0).formatMoney(2)}}</dd>
+                <dt>Final difference: </dt> <dd>{{ (company.final_difference* 1.0).formatMoney(2)}}</dd>
+
+            </dl>
+            <p><a href="#companies" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-icon-back ui-btn-icon-left">Back</a></p>
+        </div><!-- /content -->
+
+        <div data-role="footer">
+            <h4>(c) 2013. Making Data Better</h4>
+        </div><!-- /footer -->
+    </div><!-- /page popup -->
+
+    <script type="text/javascript">
+        //var tteitreports = "http://open.brightpathfoundation.org/tteiti/reports.php?reportid=1";
+        var tteitreports = "reports.php.txt";
+        var reportData;
+        var ngScope;
+        function loadCompanies() {
+            $.ajax({ url: tteitreports, dataType: "json" }).done(processCompanies);
+        }
+
+        function compareCompanies(a, b) {
+            return (b.final_government - a.final_government);
+        }
+
+        function processCompanies(data) {
+            reportData = data;
+            ngScope.$apply(function () {
+                ngScope.companies = data.openTTEITI.report[0].differences.data;
+                ngScope.companiesByRevenue = new Array();
+                angular.copy(ngScope.companies, ngScope.companiesByRevenue);
+
+                ngScope.companiesByRevenue.sort(compareCompanies);
+
+            });
+            $('#companylist ul').listview();
+            //$("#companylist ul").scrollview().trigger('create');
+        }
+
+        function toggleGoodCompanies()
+        {
+            ngScope.$apply(
+                    function () {
+                        $(ngScope.companiesByRevenue).each(function (i, k) {
+                            k.show = true;
+                            if (this.checked)
+                                k.show = (k.final_difference *1.0 != 0);
+
+                        });
+                    });
+
+        }
+
+        function initialize() {
+            $("body").show("300");
+            ngScope = angular.element("body").scope();
+            loadCompanies();
+            $("#showAll").change(toggleGoodCompanies);
+        }
+
+        $(document).ready(initialize);
+
+    </script>
+</body>
+</html>
+
