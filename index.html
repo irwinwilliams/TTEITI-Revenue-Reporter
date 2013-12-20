@@ -407,13 +407,30 @@
                 processCompanies();
                 $("#chkShowDiscrepancies").change(toggleGoodCompanies);
                 $("body").show("300");
-
+                document.addEventListener("deviceready", setOverrideBackbutton, false);
                 //if ($(window).width() < $("#entry img").width()) {
                 //    $("#entry img").attr("width", $(window).width());
                 //}
             }
 
-            $(document).ready(initialize);
+
+            /**
+            * Allow override of the back button on Android platforms
+            */
+            function setOverrideBackbutton() {
+                if (typeof device != "undefined" && device.platform == "Android") {
+                    navigator.app.overrideBackbutton(true);
+                }
+                document.addEventListener("backbutton", backButtonTap, true);
+            }
+
+            /**
+             * Callback after a backbutton tap on Android and windows platforms.
+             * Do nothing.
+             */
+            function backButtonTap() {
+                //Do not remove
+            }
 
         </script>
 </body>
