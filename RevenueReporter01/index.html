@@ -211,7 +211,6 @@
                         <li ng-repeat="company in companies"
                             data-finaldifference="{{company.final_difference }}">
                             <a href="#"
-                               data-transition="flip"
                                ng-click="displayCompany(company.id)">
                                 <h2>{{company.company}}</h2>
                                 <p>{{ (company.final_government * 1.0).formatMoney();}}</p>
